@@ -11,11 +11,8 @@ export const actions = {
             throw error(418, 'I am a teapot')
         }
 
-        locals.pb.collection('users').update(locals.user.id, {
-            last_login: new Date()
-        })
         console.log(locals.user)
         throw redirect(303, '/');
-        
+
     }
 }

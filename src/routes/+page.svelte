@@ -1,5 +1,6 @@
-<script>
+<script async>
 	import { onMount } from 'svelte';
+
 
 	onMount(() => {
 		const observer = new IntersectionObserver((entries) => {
@@ -15,15 +16,16 @@
 		const elements = document.querySelectorAll('.will-grow');
 		elements.forEach((element) => observer.observe(element));
 	});
+
 </script>
 
 <div
 	class="bg-ctp-base h-[calc(100vh-80px)] w-screen flex flex-col items-center justify-center bg-[url('/src/lib/images/blob-scene-haikei.svg')] bg-no-repeat bg-cover"
 >
-	<div class=""></div>
+	<div class="" />
 	<div class=" text-[5.5vw] text-ctp-text flex flex-row items-center justify-center">
 		<div>Disruptivism</div>
-		<div class="w-[2px] h-[8vw] bg-ctp-subtext0 m-[2vw]"></div>
+		<div class="w-[2px] h-[8vw] bg-ctp-subtext0 m-[2vw]" />
 		<div>The Future</div>
 	</div>
 	<div class=" text-ctp-subtext1 text-[2vw] text-center">
@@ -36,7 +38,7 @@
 	<div class="flex flex-col items-center justify-center">
 		<div class="text-8xl text-ctp-surface0 uppercase">Achive complete disruption.</div>
 		<div class="w-[90rem] flex flex-row justify-start">
-			<div class="will-grow animate-grow h-[2px] w-[90rem] bg-ctp-surface0 m-2 origin-left"></div>
+			<div class="will-grow animate-grow h-[2px] w-[90rem] bg-ctp-surface0 m-2 origin-left" />
 		</div>
 	</div>
 </div>
@@ -44,11 +46,7 @@
 	class=" bg-ctp-base h-[calc(67vh-80px)] w-screen flex flex-col items-center justify-center text-ctp-text text-5xl"
 >
 	<div>Disruptivist News</div>
-	<div class="flex flex-row items-center justify-center m-4">
-		<div class="w-96 h-60 bg-ctp-text m-4"></div>
-		<div class="w-96 h-60 bg-ctp-text m-4"></div>
-		<div class="w-96 h-60 bg-ctp-text m-4"></div>
-	</div>
+	<div class="flex flex-row items-center justify-center m-4" />
 </div>
 
 <style lang="postcss">
