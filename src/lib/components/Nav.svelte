@@ -1,4 +1,5 @@
 <script>
+	export let data;
 </script>
 
 <div
@@ -9,13 +10,22 @@
 	</a>
 	<div class="flex flex-row items-center gap-4">
 		<a href="/" class="hover:text-ctp-subtext0 transition-colors duration-300">Home</a>
-		<span class="w-[1px] h-8 bg-ctp-subtext1"></span>
+		<span class="w-[1px] h-8 bg-ctp-subtext1" />
 		<a href="/join" class="hover:text-ctp-subtext0 transition-colors duration-300">How to Join</a>
-		<span class="w-[1px] h-8 bg-ctp-subtext1"></span>
+		<span class="w-[1px] h-8 bg-ctp-subtext1" />
 		<a href="/texts" class="hover:text-ctp-subtext0 transition-colors duration-300">Sacred Texts</a>
-		<span class="w-[1px] h-8 bg-ctp-subtext1"></span>
+		<span class="w-[1px] h-8 bg-ctp-subtext1" />
 		<a href="/about" class="hover:text-ctp-subtext0 transition-colors duration-300">About Us</a>
 	</div>
-
-	<div>lol</div>
+	<div>
+		{#if !data}
+			<div class="flex flex-row items-center justify-center">
+				<a href="/login" class=" hover:text-ctp-subtext0 transition-colors duration-300">login</a>
+				<div class="m-2">or</div>
+				<a href="signup" class=" hover:text-ctp-subtext0 transition-colors duration-300">signup</a>
+			</div>
+		{:else}
+			test 1
+		{/if}
+	</div>
 </div>
