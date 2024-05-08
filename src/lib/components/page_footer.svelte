@@ -5,19 +5,19 @@
 		<div class="w-[30vw] h-[1px] bg-ctp-text"></div>
 		<div class="flex flex-row items-center justify-center mx-6 my-2">
 			<a href="/">
-				<img src="$lib/images/logo.png" alt="" class="mx-3 h-10" />
+				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
 			</a>
 			<a href="/">
-				<img src="$lib/images/logo.png" alt="" class="mx-3 h-10" />
+				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
 			</a>
 			<a href="/">
-				<img src="$lib/images/logo.png" alt="" class="mx-3 h-10" />
+				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
 			</a>
 			<a href="/">
-				<img src="$lib/images/logo.png" alt="" class="mx-3 h-10" />
+				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
 			</a>
 			<a href="/">
-				<img src="$lib/images/logo.png" alt="" class="mx-3 h-10" />
+				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
 			</a>
 		</div>
 		<div class="w-[30vw] h-[1px] bg-ctp-text"></div>
