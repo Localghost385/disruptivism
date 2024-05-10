@@ -1,13 +1,13 @@
 <script async>
 	import { onMount } from 'svelte';
 
+	export let data;
 
 	onMount(() => {
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
 					entry.target.classList.add('animate-grow');
-					console.log(entry);
 				} else {
 					entry.target.classList.remove('animate-grow');
 				}
@@ -16,7 +16,6 @@
 		const elements = document.querySelectorAll('.will-grow');
 		elements.forEach((element) => observer.observe(element));
 	});
-
 </script>
 
 <div
@@ -45,8 +44,33 @@
 <div
 	class=" bg-ctp-base h-[calc(67vh-80px)] w-screen flex flex-col items-center justify-center text-ctp-text text-5xl"
 >
-	<div>Disruptivist News</div>
-	<div class="flex flex-row items-center justify-center m-4" />
+	<div class=" text-6xl">Disruptivist articles</div>
+	<div class="w-[36rem] flex flex-row justify-start">
+		<div class="h-[1px] w-[36rem] bg-ctp-subtext0 m-4 origin-left" />
+	</div>
+	<div class=" w-screen flex flex-row items-center justify-evenly m-2">
+		{#if data.articles != undefined}
+			{#each data.articles.items as articles}
+				<a
+					class="relative bg-ctp-base border-[1px] border-ctp-text articles-item shadow-lg shadow-ctp-crust hover:drop-shadow-2xl transition-all duration-300"
+					href="/articles/{articles.id}"
+				>
+					<img
+						class="w-[25vw] h-[15vw] saturate-50 opacity-80 brightness-50 articles-thumbnail transition-all duration-300"
+						src="https://disruptivism.pockethost.io/api/files/articles/{articles.id}/{articles.preview}"
+						alt={articles.title}
+					/>
+					<div
+						class=" w-[20vw] mx-[2.5vw] text-4xl text-center absolute top-1/2 translate-y-[-50%]"
+					>
+						{articles.title}
+					</div>
+				</a>
+			{/each}
+		{:else}
+			error
+		{/if}
+	</div>
 </div>
 
 <style lang="postcss">
@@ -66,5 +90,9 @@
 	.animate-grow {
 		transform: scaleX(1);
 		transition-delay: 0;
+	}
+
+	.articles-item:hover .articles-thumbnail {
+		filter: brightness(75%);
 	}
 </style>

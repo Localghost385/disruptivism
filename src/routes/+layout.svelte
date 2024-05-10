@@ -3,7 +3,7 @@
 
 	export let data;
 </script>
-<div class="overflow-x-hidden">
+<div class=" overflow-x-clip">
 	<div
 		class="sticky top-0 z-50 w-screen h-20 p-4 px-16 flex flex-row items-center justify-between bg-ctp-surface0 dark:bg-red-500 main text-ctp-text text-xl border-b-[1px] border-ctp-text"
 	>
@@ -13,7 +13,9 @@
 		<div class="flex flex-row items-center gap-4">
 			<a href="/" class="hover:text-ctp-subtext0 transition-colors duration-300">Home</a>
 			<span class="w-[1px] h-8 bg-ctp-subtext1" />
-			<a href="/join" class="hover:text-ctp-subtext0 transition-colors duration-300">How to Join</a>
+			<a href="/discussion" class="hover:text-ctp-subtext0 transition-colors duration-300">Discussion</a>
+			<span class="w-[1px] h-8 bg-ctp-subtext1" />
+			<a href="/articles" class="hover:text-ctp-subtext0 transition-colors duration-300">Articles</a>
 			<span class="w-[1px] h-8 bg-ctp-subtext1" />
 			<a href="/texts" class="hover:text-ctp-subtext0 transition-colors duration-300">Sacred Texts</a>
 			<span class="w-[1px] h-8 bg-ctp-subtext1" />
@@ -30,11 +32,11 @@
 				<div class="dropdown">
 					<button class="dropdown-title flex flex-row items-center justify-center">
 						<div>{data.user.username}</div>
-						<div class="h-2 w-2 ml-2 rotate-45 border-b-2 border-r-2 border-ctp-text" />
+						<div class="h-2 w-2 ml-2 rotate-45 border-b-[1px] border-r-[1px] border-ctp-text" />
 					</button>
 					<div class="dropdown-content hidden relative">
 						<div
-							class=" absolute left-[-0.5rem] top-0 flex flex-col items-start justify-start bg-ctp-surface0 border-2 border-ctp-text"
+							class=" absolute left-[-0.5rem] top-0 flex flex-col items-start justify-start bg-ctp-surface0 border-[1px] border-ctp-text"
 						>
 							<form
 								action="/logout"
