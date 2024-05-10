@@ -31,7 +31,7 @@
 	<div class=" text-ctp-subtext1 text-[2vw] text-center">
 		Find our lord and saviour through the power of Disruption.<br />
 		Join our community today.<br />
-		Find eternal salvation in Philip Mackessy.
+		Find eternal salvation in Phillip Mackessy.
 	</div>
 </div>
 <div class=" bg-ctp-text h-[33vh] w-screen flex flex-row items-center justify-center">
