@@ -125,13 +125,13 @@
 
 								<div class="text-ctp-text w-full">{reply.content}</div>
 								<div class="flex flex-row items-center justify-between">
-									<div class="text-ctp-overlay2">By{reply.expand.user.username}</div>
+									<div class="text-ctp-overlay2">By {reply.expand.user.username}</div>
 								</div>
 							</div>
 						</div>
 					{/each}
 				{:else}
-					<div>No replies were found</div>
+					<div class="text-3xl text-ctp-text">No replies were found</div>
 				{/if}
 			</div>
 		</div>
