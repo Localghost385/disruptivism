@@ -6,8 +6,6 @@ export const actions = {
 
         let author = locals.user.id;
 
-
-
         try {
             const new_article = await locals.pb.collection('articles').create(
                 {
@@ -15,11 +13,9 @@ export const actions = {
                 }
             )
 
-            const articles = locals.user.articles + new_article.id
-
-            locals.pb.collection('users').update(locals.user.id, {
-                ...locals.user, articles
-            })
+            await locals.pb.collection('users').update(locals.user.id, {
+                ...locals.user, articles: [...locals.user.articles, new_article.id]
+            });
         } catch (err) {
             console.log(err);
             throw error(418, 'I am a teapot')
