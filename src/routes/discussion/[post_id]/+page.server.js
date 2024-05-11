@@ -4,7 +4,13 @@ export const load = async ({ locals, params }) => {
         expand: 'user,replies.user',
     });
 
-    locals.user = await locals.pb.collection('users').getOne(locals.user.id)
+    try {
+
+        locals.user = await locals.pb.collection('users').getOne(locals.user.id)
+    } catch (err) {
+
+        console.log(err)
+    }
 
     if (locals.post) {
         return {
@@ -31,7 +37,7 @@ export const actions = {
             )
 
             const post = await locals.pb.collection('posts').getOne(body.post_id, {
-                
+
             })
 
             await locals.pb.collection('users').update(locals.user.id, {
