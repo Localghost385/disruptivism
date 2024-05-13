@@ -1,9 +1,11 @@
 <script>
-	import { goto } from '$app/navigation';
-
+	import { invalidate, invalidateAll } from '$app/navigation';
 	export let data;
 	$: posts = data.posts;
 	$: user = data.user;
+
+	let form;
+	$: new_post_loading = false;
 
 	function vote_inc(post_id) {
 		const formData = new FormData();
@@ -33,6 +35,31 @@
 			return 'border-ctp-subtext0';
 		}
 	}
+
+	async function submit_post(event) {
+		event.preventDefault(); // Prevent default form submission
+
+		if (form != undefined) {
+			const formData = new FormData();
+			form.querySelectorAll('input, textarea').forEach((input) => {
+				formData.append(input.name, input.value);
+			});
+			form.reset();
+			new_post_loading = true;
+
+			await fetch('?/submit', {
+				method: 'POST',
+				body: formData
+			});
+
+			invalidateAll();
+		}
+	}
+
+	function new_post_not_loading() {
+		new_post_loading = false;
+		return '';
+	}
 </script>
 
 <div
@@ -48,11 +75,14 @@
 					method="POST"
 					enctype="multipart/form-data"
 					class="flex flex-col items-center justify-evenly w-[38vw] gap-5 mb-[1vw] text-ctp-text"
+					bind:this={form}
+					on:submit={submit_post}
 				>
 					<input
 						type="text"
 						name="title"
 						placeholder="Title"
+						autocomplete="off"
 						class="h-10 w-full px-2 bg-ctp-surface0 border-[1px] border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
 					/>
 
@@ -61,12 +91,11 @@
 						placeholder="Content"
 						class="h-[10vw] w-full p-2 bg-ctp-surface0 border-[1px] text-ctp-subtext0 border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
 					/>
-					<input
+					<button
 						type="submit"
-						name="submit"
-						value="Submit"
 						class="h-10 w-full px-2 bg-ctp-surface0 border-[1px] hover:cursor-pointer text-ctp-subtext0 text-left border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
-					/>
+						>Submit Post</button
+					>
 				</form>
 			{:else}
 				<div class="text-3xl text-ctp-text mb-[1vw]">
@@ -87,7 +116,42 @@
 			</button>
 
 			<div class="w-full flex flex-col items-center justify-center mt-[1vw]">
+				{#if new_post_loading}
+					<div class="w-full h-full flex items-center justify-center">
+						<div
+							class="relative w-20 h-20 flex items-center justify-center transition-all duration-300"
+						>
+							<div
+								class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+							>
+								<div
+									class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+								>
+									<div
+										class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+									>
+										<div
+											class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+										>
+											<div
+												class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+											>
+												<div
+													class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="text-3xl text-ctp-text ml-8">Creating your post...</div>
+					</div>
+				{/if}
 				{#each posts as post}
+					<div class="hidden">
+						{new_post_not_loading()}
+					</div>
 					<div
 						class="relative h-[5vw] w-full border-[1px] p-[1vw] border-ctp-text my-3 mx-4 flex flex-row items-center"
 					>
@@ -147,5 +211,23 @@
 		font-optical-sizing: auto;
 		font-weight: 300;
 		font-style: normal;
+	}
+
+	.rings {
+		animation: rotate 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+	}
+
+	.visible {
+		opacity: 1;
+		z-index: 50;
+	}
+
+	@keyframes rotate {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 </style>

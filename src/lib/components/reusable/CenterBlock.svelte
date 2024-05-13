@@ -4,7 +4,7 @@
 
 	export let bg = "url('/src/lib/images/blob-scene-haikei.svg')";
 
-	export let padding = "p-5";
+	export let padding = 'p-5';
 </script>
 
 <div

@@ -23,6 +23,7 @@
 					type="text"
 					name="title"
 					placeholder="Title"
+					autocomplete="off"
 					class="h-10 w-full px-2 bg-ctp-surface0 border-[1px] border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
 				/>
 

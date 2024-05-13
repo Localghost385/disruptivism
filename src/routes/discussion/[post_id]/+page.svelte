@@ -1,12 +1,13 @@
 <script>
 	import CenterBlock from '$lib/components/reusable/CenterBlock.svelte';
-	import PocketBase from 'pocketbase';
-
-	const pb = new PocketBase('https://disruptivism.pockethost.io');
+	import { invalidateAll } from '$app/navigation';
 
 	export let data;
 	$: replies = data.post.expand.replies;
 	$: user = data.user;
+
+	let form;
+	$: new_reply_loading = false;
 
 	console.log(replies);
 
@@ -38,6 +39,31 @@
 			return 'border-ctp-subtext0';
 		}
 	}
+
+	async function submit_reply(event) {
+		event.preventDefault(); // Prevent default form submission
+
+		if (form != undefined) {
+			const formData = new FormData();
+			form.querySelectorAll('input, textarea').forEach((input) => {
+				formData.append(input.name, input.value);
+			});
+			form.reset();
+			new_reply_loading = true;
+
+			await fetch('?/submit', {
+				method: 'POST',
+				body: formData
+			});
+
+			invalidateAll();
+		}
+	}
+
+	function new_reply_not_loading() {
+		new_reply_loading = false;
+		return '';
+	}
 </script>
 
 <CenterBlock width={'40vw'} padding={'p-0'}>
@@ -62,6 +88,8 @@
 					method="POST"
 					enctype="multipart/form-data"
 					class="flex flex-col items-center justify-evenly w-[38vw] gap-5 mb-[1vw] text-ctp-text"
+					bind:this={form}
+					on:submit={submit_reply}
 				>
 					<textarea
 						name="content"
@@ -87,9 +115,51 @@
 
 			<div class="w-[40vw] h-[1px] bg-ctp-text" />
 
+			<button
+				on:click={() => location.reload()}
+				class="text-3xl text-ctp-lavender hover:text-ctp-blue transition-colors duration-300 mt-[2vw]"
+			>
+				Reload replies
+			</button>
+
 			<div class="w-full flex flex-col items-center justify-center mt-[1vw]">
+				{#if new_reply_loading}
+					<div class="w-full h-full flex items-center justify-center">
+						<div
+							class="relative w-20 h-20 flex items-center justify-center transition-all duration-300"
+						>
+							<div
+								class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+							>
+								<div
+									class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+								>
+									<div
+										class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+									>
+										<div
+											class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+										>
+											<div
+												class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+											>
+												<div
+													class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="text-3xl text-ctp-text ml-8">Creating your reply...</div>
+					</div>
+				{/if}
 				{#if replies != undefined}
 					{#each data.post.expand.replies as reply}
+						<div class="hidden">
+							{new_reply_not_loading()}
+						</div>
 						<div
 							class="h-[5vw] w-full border-[1px] p-[1vw] border-ctp-text my-3 mx-4 flex flex-row items-center"
 						>
@@ -147,5 +217,23 @@
 		font-optical-sizing: auto;
 		font-weight: 300;
 		font-style: normal;
+	}
+
+	.rings {
+		animation: rotate 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+	}
+
+	.visible {
+		opacity: 1;
+		z-index: 50;
+	}
+
+	@keyframes rotate {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 </style>

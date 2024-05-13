@@ -43,8 +43,12 @@
 							method="post"
 							class="p-2 w-28 h-auto text-ctp-text hover:bg-ctp-surface1"
 						>
-							<button class="w-full h-full" type="submit">Logout</button>
+							<button class=" h-full" type="submit">Logout</button>
 						</form>
+						<a
+							href="/user/{data.user.username}"
+							class="p-2 w-28 h-auto text-ctp-text hover:bg-ctp-surface1">profile</a
+						>
 					</div>
 				</div>
 			</div>

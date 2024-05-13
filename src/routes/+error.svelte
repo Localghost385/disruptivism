@@ -7,7 +7,7 @@
 >
 	<div class=" text-8xl text-ctp-text flex flex-row items-center justify-center">
 		<div>{$page.status}</div>
-		<div class="w-[2px] h-32 bg-ctp-subtext0 m-10"></div>
+		<div class="w-[2px] h-32 bg-ctp-subtext0 m-10" />
 		<div>{$page.error && $page.error.message}</div>
 	</div>
 </div>
