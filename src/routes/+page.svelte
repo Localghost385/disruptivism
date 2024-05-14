@@ -1,9 +1,15 @@
 <script async>
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import { sineInOut } from 'svelte/easing';
 
 	export let data;
 
+	let loaded = false;
+
 	onMount(() => {
+		loaded = true;
+
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
@@ -21,17 +27,24 @@
 <div
 	class="bg-ctp-base h-[calc(100vh-80px)] w-screen flex flex-col items-center justify-center bg-[url('/src/lib/images/blob-scene-haikei.svg')] bg-no-repeat bg-cover"
 >
-	<div class="" />
-	<div class=" text-[5.5vw] text-ctp-text flex flex-row items-center justify-center">
-		<div>Disruptivism</div>
-		<div class="w-[2px] h-[8vw] bg-ctp-subtext0 m-[2vw]" />
-		<div>The Future</div>
-	</div>
-	<div class=" text-ctp-subtext1 text-[2vw] text-center">
-		Find our lord and saviour through the power of Disruption.<br />
-		Join our community today.<br />
-		Find eternal salvation in Phillip Mackessy.
-	</div>
+	{#if loaded}
+		<div
+			transition:fade={{ duration: 500, delay: 200, easing: sineInOut }}
+			class=" text-[5.5vw] text-ctp-text flex flex-row items-center justify-center"
+		>
+			<div>Disruptivism</div>
+			<div class="w-[2px] h-[8vw] bg-ctp-subtext0 m-[2vw]" />
+			<div>The Future</div>
+		</div>
+		<div
+			transition:fade={{ duration: 500, delay: 800, easing: sineInOut }}
+			class=" text-ctp-subtext1 text-[2vw] text-center"
+		>
+			Find our lord and saviour through the power of Disruption.<br />
+			Join our community today.<br />
+			Find eternal salvation in Phillip Mackessy.
+		</div>
+	{/if}
 </div>
 <div class=" bg-ctp-text h-[33vh] w-screen flex flex-row items-center justify-center">
 	<div class="flex flex-col items-center justify-center">
