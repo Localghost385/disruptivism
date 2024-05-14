@@ -42,6 +42,26 @@ export const actions = {
 			console.log(err);
 		}
 	},
+	delete: async ({ locals, request }) => {
+		const body = Object.fromEntries(await request.formData());
+		console.log(body.post_id);
+		try {
+			await locals.pb.collection('posts').delete(body.post_id);
+		} catch (err) {
+			console.log(err);
+		}
+	},
+	ban: async ({ locals, request }) => {
+		const body = Object.fromEntries(await request.formData());
+
+		try {
+			await locals.pb.collection('users').update(body.user_id, {
+				discussion_banned: true
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	},
 	vote_inc: async ({ locals, request }) => {
 		const body = Object.fromEntries(await request.formData());
 

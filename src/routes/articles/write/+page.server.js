@@ -4,6 +4,8 @@ export const actions = {
 	write: async ({ locals, request }) => {
 		const body = Object.fromEntries(await request.formData());
 
+		console.log(body);
+
 		let author = locals.user.id;
 
 		try {

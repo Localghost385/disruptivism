@@ -3,8 +3,6 @@ export const load = async ({ locals }) => {
 		sort: '-created'
 	});
 
-	console.log(locals.articles);
-
 	if (locals.articles) {
 		return {
 			articles: locals.articles

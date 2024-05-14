@@ -9,7 +9,7 @@
 	{#if data.user != undefined}
 		<div class="relative flex flex-row items-center justify-center w-full h-full">
 			<img
-				class="w-28 h-28 rounded-full"
+				class="w-28 h-28 rounded-xl"
 				src="https://disruptivism.pockethost.io/api/files/users/{data.user_profile.id}/{data
 					.user_profile.avatar}"
 				alt="user avatar"
@@ -104,29 +104,29 @@
 			{:else}
 				<div class="text-3xl text-ctp-text">This user has no posts</div>
 			{/if}
-		{:else if data.user_profile.expand.replies != undefined}
-		{#each data.user_profile.expand.replies as reply}
-		<div class="hidden" />
-		<div
-			class="relative h-[5vw] w-full border-[1px] p-[1vw] border-ctp-text my-3 mx-4 flex flex-row items-center"
-		>
-			<div
-				class="mr-[1vw] display flex flex-row items-center justify-between gap-2 text-xl text-ctp-subtext0"
-			>
-				<div>{reply.votes}</div>
-			</div>
-			<a
-				class="relative w-full text-xl text-ctp-text top-1/2 -translate-y-1/2"
-				href="/discussion/{reply.post.id}"
-			>
-				<div>{reply.content}</div>
-				<div class="flex flex-row items-center justify-between">
-					<div class="text-ctp-overlay2">By {reply.expand.user.username}</div>
-					<div class="text-ctp-overlay2">{reply.created}</div>
+		{:else if data.user_profile.expand.replies != undefined && data.user_profile.expand.replies.length > 0}
+			{#each data.user_profile.expand.replies as reply}
+				<div class="hidden" />
+				<div
+					class="relative h-[5vw] w-full border-[1px] p-[1vw] border-ctp-text my-3 mx-4 flex flex-row items-center"
+				>
+					<div
+						class="mr-[1vw] display flex flex-row items-center justify-between gap-2 text-xl text-ctp-subtext0"
+					>
+						<div>{reply.votes}</div>
+					</div>
+					<a
+						class="relative w-full text-xl text-ctp-text top-1/2 -translate-y-1/2"
+						href="/discussion/{reply.post.id}"
+					>
+						<div>{reply.content}</div>
+						<div class="flex flex-row items-center justify-between">
+							<div class="text-ctp-overlay2">By {reply.expand.user.username}</div>
+							<div class="text-ctp-overlay2">{reply.created}</div>
+						</div>
+					</a>
 				</div>
-			</a>
-		</div>
-	{/each}
+			{/each}
 		{:else}
 			<div class="text-3xl text-ctp-text">This user has no replies</div>
 		{/if}

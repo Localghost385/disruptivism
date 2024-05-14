@@ -4,23 +4,26 @@
 	$: posts = data.posts;
 	$: user = data.user;
 
+	$: posts.length, update_load_icon();
+
 	let form;
 	$: new_post_loading = false;
+	$: deleting_post = false;
 
-	function vote_inc(post_id) {
+	async function vote_inc(post_id) {
 		const formData = new FormData();
 		formData.append('post_id', post_id);
 
-		fetch('?/vote_inc', {
+		await fetch('?/vote_inc', {
 			method: 'POST',
 			body: formData
 		});
 	}
-	function vote_dec(post_id) {
+	async function vote_dec(post_id) {
 		const formData = new FormData();
 		formData.append('post_id', post_id);
 
-		fetch('?/vote_dec', {
+		await fetch('?/vote_dec', {
 			method: 'POST',
 			body: formData
 		});
@@ -40,12 +43,13 @@
 		event.preventDefault(); // Prevent default form submission
 
 		if (form != undefined) {
+			new_post_loading = true;
+
 			const formData = new FormData();
 			form.querySelectorAll('input, textarea').forEach((input) => {
 				formData.append(input.name, input.value);
 			});
 			form.reset();
-			new_post_loading = true;
 
 			await fetch('?/submit', {
 				method: 'POST',
@@ -56,8 +60,33 @@
 		}
 	}
 
-	function new_post_not_loading() {
+	async function delete_post(post_id) {
+		deleting_post = true;
+
+		const formData = new FormData();
+		formData.append('post_id', post_id);
+
+		await fetch('?/delete', {
+			method: 'POST',
+			body: formData
+		});
+		invalidateAll();
+	}
+
+	async function ban_user(user_id) {
+		const formData = new FormData();
+		formData.append('user_id', user_id);
+
+		await fetch('?/ban', {
+			method: 'POST',
+			body: formData
+		});
+	}
+
+	function update_load_icon() {
 		new_post_loading = false;
+		deleting_post = false;
+
 		return '';
 	}
 </script>
@@ -116,7 +145,7 @@
 			</button>
 
 			<div class="w-full flex flex-col items-center justify-center mt-[1vw]">
-				{#if new_post_loading}
+				{#if new_post_loading || deleting_post}
 					<div class="w-full h-full flex items-center justify-center">
 						<div
 							class="relative w-20 h-20 flex items-center justify-center transition-all duration-300"
@@ -145,13 +174,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="text-3xl text-ctp-text ml-8">Creating your post...</div>
+						{#if new_post_loading}
+							<div class="text-3xl text-ctp-text ml-8">Creating your post...</div>
+						{:else if deleting_post}
+							<div class="text-3xl text-ctp-text ml-8">Deleting post...</div>
+						{/if}
 					</div>
 				{/if}
 				{#each posts as post}
-					<div class="hidden">
-						{new_post_not_loading()}
-					</div>
 					<div
 						class="relative h-[5vw] w-full border-[1px] p-[1vw] border-ctp-text my-3 mx-4 flex flex-row items-center"
 					>
@@ -185,16 +215,31 @@
 								<div>{post.votes}</div>
 							{/if}
 						</div>
-						<a
-							class="relative w-full text-xl text-ctp-text top-1/2 -translate-y-1/2"
-							href="/discussion/{post.id}"
-						>
-							<div>{post.title}</div>
+						<div class="relative w-full text-xl text-ctp-text top-1/2 -translate-y-1/2">
+							<div class="flex flex-row items-start justify-between">
+								<a href="/discussion/{post.id}">
+									{post.title}
+								</a>
+								{#if user != undefined}
+									{#if user.discussion_moderator == true || user.id == post.expand.user.id}
+										<div class="flex flex-row items-center justify-center gap-3">
+											<button on:click={delete_post(post.id)} class="text-ctp-lavender">
+												Delete
+											</button>
+											{#if user.discussion_moderator == true && post.expand.user.id != user.id}
+												<button on:click={ban_user(post.expand.user.id)} class="text-ctp-lavender">
+													Ban
+												</button>
+											{/if}
+										</div>
+									{/if}
+								{/if}
+							</div>
 							<div class="flex flex-row items-center justify-between">
 								<div class="text-ctp-overlay2">By {post.expand.user.username}</div>
 								<div class="text-ctp-overlay2">{post.created}</div>
 							</div>
-						</a>
+						</div>
 					</div>
 				{/each}
 			</div>
