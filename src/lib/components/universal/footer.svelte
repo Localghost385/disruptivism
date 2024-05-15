@@ -1,40 +1,17 @@
-<div
-	class="bottom-0 bg-ctp-surface0 border-t-[1px] border-ctp-text h-48 w-screen flex flex-col items-center justify-center p-4"
->
-	<div class="w-screen flex flex-row items-center justify-center">
-		<div class="w-[30vw] h-[1px] bg-ctp-text" />
-		<div class="flex flex-row items-center justify-center mx-6 my-2">
-			<a href="/">
-				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
-			</a>
-			<a href="/">
-				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
-			</a>
-			<a href="/">
-				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
-			</a>
-			<a href="/">
-				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
-			</a>
-			<a href="/">
-				<img src="/images/logo.png" alt="" class="mx-3 h-10" />
-			</a>
-		</div>
-		<div class="w-[30vw] h-[1px] bg-ctp-text" />
+<script>
+	import { Footer, FooterCopyright, FooterLinkGroup, FooterBrand, FooterLink } from 'flowbite-svelte';
+  </script>
+  
+  <Footer footerType="logo" class="border-t-black dark:border-t-white border-2 rounded-none">
+	<div class="sm:flex sm:items-center sm:justify-between">
+	  <FooterBrand href="/" src="/images/logo.svg" alt="Logo" name="Disruptivism" />
+	  <FooterLinkGroup ulClass="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
+		<FooterLink href="/license">Licensing</FooterLink>
+		<FooterLink href="/">Contact</FooterLink>
+	  </FooterLinkGroup>
 	</div>
-	<div class=" text-ctp-text text-3xl">Disruptivism</div>
-	<div class=" text-ctp-text text-xs m-2">
-		Copyright © 2024 Church of Disruptivism. All rights reserved.
-	</div>
-	<div class="flex flex-row items-center gap-4 text-ctp-subtext0">
-		<a href="/" class="hover:text-ctp-subtext0 transition-colors duration-300">placeholder</a>
-		<span class="w-[1px] h-4 bg-ctp-subtext1" />
-		<a href="/" class="hover:text-ctp-subtext0 transition-colors duration-300">placeholder</a>
-		<span class="w-[1px] h-4 bg-ctp-subtext1" />
-		<a href="/" class="hover:text-ctp-subtext0 transition-colors duration-300">placeholder</a>
-		<span class="w-[1px] h-4 bg-ctp-subtext1" />
-		<a href="/" class="hover:text-ctp-subtext0 transition-colors duration-300">placeholder</a>
-		<span class="w-[1px] h-4 bg-ctp-subtext1" />
-		<a href="/" class="hover:text-ctp-subtext0 transition-colors duration-300">placeholder</a>
-	</div>
-</div>
+	<hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+	<FooterCopyright href="/" by="The Church of Disruptivism" year={2024} />
+  </Footer>
+  
+  

@@ -63,31 +63,35 @@
 		<div class="w-3/4 h-full">
 			{#if active_tab == 0}
 				<div
-					class="w-full h-full" out:fade={{ duration: 300, easing: sineInOut }}
+					class="w-full h-full"
+					out:fade={{ duration: 300, easing: sineInOut }}
 					in:fade={{ duration: 300, delay: 280, easing: sineInOut }}
 				>
-					<Profile content={data.user.username} data={data} />
+					<Profile content={data.user.username} {data} />
 				</div>
 			{:else if active_tab == 1}
 				<div
-					class="w-full h-full" out:fade={{ duration: 300, easing: sineInOut }}
+					class="w-full h-full"
+					out:fade={{ duration: 300, easing: sineInOut }}
 					in:fade={{ duration: 300, delay: 280, easing: sineInOut }}
 				>
-					<Security content={data.user.username} data={data} />
+					<Security content={data.user.username} {data} />
 				</div>
 			{:else if active_tab == 2}
 				<div
-					class="w-full h-full" out:fade={{ duration: 300, easing: sineInOut }}
+					class="w-full h-full"
+					out:fade={{ duration: 300, easing: sineInOut }}
 					in:fade={{ duration: 300, delay: 280, easing: sineInOut }}
 				>
-					<Profile content={data.user.username} data={data} />
+					<Profile content={data.user.username} {data} />
 				</div>
 			{:else if active_tab == 3}
 				<div
-					class="w-full h-full" out:fade={{ duration: 300, easing: sineInOut }}
+					class="w-full h-full"
+					out:fade={{ duration: 300, easing: sineInOut }}
 					in:fade={{ duration: 300, delay: 280, easing: sineInOut }}
 				>
-					<Profile content={data.user.username} data={data} />
+					<Profile content={data.user.username} {data} />
 				</div>
 			{/if}
 		</div>

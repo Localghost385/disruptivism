@@ -1,9 +1,7 @@
 <script>
-    import CenterBlock from "$lib/components/reusable/CenterBlock.svelte";
+	import CenterBlock from '$lib/components/reusable/CenterBlock.svelte';
 </script>
 
-<div></div>
+<div />
 
-<CenterBlock width={'40vw'}>
-    
-</CenterBlock>
+<CenterBlock width={'40vw'} />

@@ -63,7 +63,7 @@
 						<img
 							src="https://disruptivism.pockethost.io/api/files/articles/{article.id}/{article.preview}"
 							alt="test"
-							class=" z-0 absolute top-0 left-0 h-[5vw] w-[8vw] object-cover brightness-50 articles-thumbnail transition-all duration-300 article-thumbnail"
+							class=" z-0 absolute top-0 left-0 h-[5vw] w-[8vw] object-cover brightness-50 articles-thumbnail transition-all duration-300 article-thumbnail border-ctp-text border-2"
 						/>
 						<div class="relative text-xl text-ctp-text ml-[9vw] mr-[1vw] top-1/2 -translate-y-1/2">
 							<div>{article.title}</div>
