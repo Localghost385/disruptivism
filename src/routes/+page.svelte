@@ -40,7 +40,7 @@
 </div>
 
 <div
-	class="min-h-[20vw] w-full relative flex flex-col items-center justify-center p-10 border-t-2 border-black dark:border-white"
+	class="min-h-[20vw] w-full relative flex flex-col items-center justify-center p-10 border-t-2 border-b-2 border-black dark:border-white"
 >
 	<Testimonial icon={Quotes}>
 		<blockquote>
@@ -63,7 +63,7 @@
 
 <div class="flex flex-col items-center justify-center p-10">
 	<div
-		class="w-full px-10 flex flex-row items-center justify-center text-4xl text-black dark:text-white"
+		class="w-full px-10 flex flex-row items-center justify-center text-4xl text-black dark:text-white text-nowrap"
 	>
 		Recent Articles
 	</div>
