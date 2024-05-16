@@ -2,7 +2,7 @@
 	import { Footer, FooterCopyright, FooterLinkGroup, FooterBrand, FooterLink } from 'flowbite-svelte';
   </script>
   
-  <Footer footerType="logo" class="border-t-black dark:border-t-white border-2 rounded-none">
+  <Footer footerType="logo" class="border-t-2 border-black dark:border-white rounded-none">
 	<div class="sm:flex sm:items-center sm:justify-between">
 	  <FooterBrand href="/" src="/images/logo.svg" alt="Logo" name="Disruptivism" />
 	  <FooterLinkGroup ulClass="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
