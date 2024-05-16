@@ -11,17 +11,18 @@
 		TestimonialCard,
 		TestimonialCardItem
 	} from 'flowbite-svelte-blocks';
+	import { Pagination } from 'flowbite-svelte';
+	import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { fade } from 'svelte/transition';
 	import { sineInOut } from 'svelte/easing';
-
-	import Wiggle from '$lib/components/reusable/Wiggle.svelte';
+	import { page } from '$app/stores';
 
 	export let data;
 </script>
 
 <div
-	class="h-[calc(100vh-80px)] w-full relative bg-[url('/src/lib/images/blob_light.svg')] dark:bg-[url('/src/lib/images/blob_dark.svg')] bg-cover bg-center bg-no-repeat p-10"
+	class="h-[calc(100vh-80px)] w-full relative bg-[url('/src/lib/images/blob_1_light.svg')] dark:bg-[url('/src/lib/images/blob_1_dark.svg')] bg-cover bg-center bg-no-repeat p-10"
 >
 	<div class=" h-full w-full flex flex-col items-center justify-center gap-[3vw]">
 		<div class=" place-self-center lg:col-span-7">
@@ -73,8 +74,7 @@
 			{#each data.articles.items as article}
 				<Card
 					img="https://disruptivism.pockethost.io/api/files/articles/{article.id}/{article.preview}"
-					imgAlt="article cover"
-					class=" hover:scale-[1.01] border-2 hover:border-black dark:hover:border-white shadow-none hover:shadow-md  shadow-black dark:hover:shadow-white transition-all duration-300 cursor-pointer"
+					class="hover:scale-[1.01] border-2 hover:border-black dark:hover:border-white shadow-none hover:shadow-md  shadow-black dark:hover:shadow-white transition-all duration-300 cursor-pointer"
 					href="/articles/{article.id}"
 				>
 					<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
