@@ -62,8 +62,12 @@
 </div>
 
 <div class="flex flex-col items-center justify-center p-10">
-	<div class="w-full px-10 flex items-center justify-center gap-5 text-4xl text-black dark:text-white">Recent Articles</div>
-	<div class="h-[2px] w-72 m-2 bg-black dark:bg-white"></div>
+	<div
+		class="w-full px-10 flex flex-row items-center justify-center text-4xl text-black dark:text-white"
+	>
+		Recent Articles
+	</div>
+	<div class="h-[2px] w-72 m-2 bg-black dark:bg-white" />
 	<div class="w-full p-10 flex flex-row flex-wrap items-center justify-center gap-5">
 		{#if data.articles != undefined}
 			{#each data.articles.items as article}
@@ -72,7 +76,7 @@
 					imgAlt="article cover"
 					class=" hover:scale-[1.01] border-2 hover:border-black dark:hover:border-white shadow-none hover:shadow-md  shadow-black dark:hover:shadow-white transition-all duration-300 cursor-pointer"
 					href="/articles/{article.id}"
-					>
+				>
 					<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 						{article.title}
 					</h5>
