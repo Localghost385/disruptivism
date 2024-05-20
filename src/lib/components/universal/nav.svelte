@@ -17,7 +17,7 @@
 	export let data;
 </script>
 
-<Navbar class="sticky top-0 z-50 start-0 border-b-2 border-black dark:border-white">
+<Navbar class="sticky top-0 z-30 start-0 border-b-2 border-black dark:border-white">
 	<div class=" flex flex-row items-center justify-between gap-[3vw]">
 		<DarkMode class="self-center" />
 		<NavBrand href="/">
@@ -30,11 +30,12 @@
 	<NavHamburger />
 	<NavUl {activeUrl}>
 		<NavLi href="/">Home</NavLi>
-		<NavLi href="/discussion">Discussion</NavLi>
+		<NavLi href="/discussion?page=1">Discussion</NavLi>
 		<NavLi href="/articles">Articles</NavLi>
 		<NavLi href="/texts">Sacred Texts</NavLi>
 		<NavLi href="/about">About Us</NavLi>
 		{#if !data.user}
+			<NavLi>|</NavLi>
 			<NavLi href="/login">Login</NavLi>
 			<NavLi href="/signup">Signup</NavLi>
 		{:else}

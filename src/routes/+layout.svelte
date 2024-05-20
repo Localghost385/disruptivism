@@ -1,6 +1,17 @@
 <script>
 	import Nav from '$lib/components/universal/nav.svelte';
 	import Footer from '$lib/components/universal/footer.svelte';
+	import { Spinner } from 'flowbite-svelte';
+
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
+
+	let opacity = '0';
+	beforeNavigate(() => {
+		opacity = '100';
+	});
+	afterNavigate(() => {
+		opacity = '0';
+	});
 
 	import '$lib/app.css';
 
@@ -15,6 +26,14 @@
 	<slot />
 
 	<Footer />
+
+	{#if opacity != '0'}
+		<div class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center">
+			<div class="text-center transition-all duration-300 opacity-{opacity} ease-in-out">
+				<Spinner size="20" />
+			</div>
+		</div>
+	{/if}
 </div>
 
 <style lang="postcss">

@@ -1,6 +1,6 @@
 <script>
 	import CenterBlock from '$lib/components/reusable/CenterBlock.svelte';
-	import { Card, GradientButton } from 'flowbite-svelte';
+	import { Card, Button } from 'flowbite-svelte';
 	import { ArrowLeftOutline } from 'flowbite-svelte-icons';
 
 	export let data;
@@ -8,7 +8,9 @@
 
 <div class="w-full p-10 flex flex-col items-center justify-center gap-5">
 	<div class="w-full max-w-2xl">
-		<GradientButton outline pill color="redToYellow" class="w-1/4" href="/articles"> <ArrowLeftOutline /> Back to Articles</GradientButton>
+		<Button outline pill class="w-1/2 md:w-1/4" href="/articles">
+			<ArrowLeftOutline /> Back to Articles</Button
+		>
 	</div>
 	{#if data.article != undefined}
 		<Card
@@ -17,11 +19,13 @@
 			class="w-full max-w-2xl"
 		>
 			<h5
-				class="mb-2 text-5xl font-bold tracking-tight text-gray-900 dark:text-white pb-2 border-b-2 border-gray-300 dark:border-gray-700"
+				class="mb-2 text-3xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white pb-2 border-b-2 border-gray-300 dark:border-gray-700"
 			>
 				{data.article.title}
 			</h5>
-			<p class="mb-3 font-normal text-2xl text-gray-700 dark:text-gray-400 leading-tight">
+			<p
+				class="mb-3 font-normal text-xl md:text-2xl text-gray-700 dark:text-gray-400 leading-tight"
+			>
 				{@html data.article.content}
 			</p>
 		</Card>

@@ -1,56 +1,43 @@
 <script>
-	import CenterBlock from '$lib/components/reusable/CenterBlock.svelte';
+	import { Section, Register } from 'flowbite-svelte-blocks';
+	import { Button, Checkbox, Label, Input } from 'flowbite-svelte';
 </script>
 
-<CenterBlock>
-	<div class=" text-4xl text-ctp-text flex flex-row items-center justify-center">Log In</div>
-	<form
-		action="?/login"
-		method="POST"
-		class="flex flex-col items-center justify-evenly text-ctp-text text-xl"
-	>
-		<div class="flex flex-col justify-evenly m-1">
-			<label for="email">
-				<span>Email</span>
-			</label>
-			<input
-				type="email"
-				name="email"
-				class="h-10 w-64 px-2 bg-ctp-surface0 border-[1px] border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
-			/>
-		</div>
-		<div class="flex flex-col justify-evenly m-1">
-			<label for="password">
-				<span>Password</span>
-			</label>
-			<input
-				type="password"
-				name="password"
-				class="h-10 w-64 px-2 bg-ctp-surface0 border-[1px] border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
-			/>
-		</div>
-
-		<div>
-			<button
-				type="submit"
-				class=" m-1 hover:text-ctp-subtext0 transition-colors duration-300 underline">Submit</button
-			>
-		</div>
-	</form>
-	<div class="text-ctp-text text-xl">
-		Or <a
-			class="text-ctp-lavender hover:text-ctp-blue underline transition-colors duration-300"
-			href="/login">Sign Up</a
-		> if you don't have an account yet.
-	</div>
-</CenterBlock>
-
-<style lang="postcss">
-	@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-	* {
-		font-family: 'Urbanist', sans-serif;
-		font-optical-sizing: auto;
-		font-weight: 300;
-		font-style: normal;
-	}
-</style>
+<div
+	class="h-[calc(100vh-80px)] w-full flex flex-col items-center justify-center bg-[url('/src/lib/images/blob_1_light.svg')] dark:bg-[url('/src/lib/images/blob_1_dark.svg')] bg-cover bg-center bg-no-repeat p-10"
+>
+	<Section name="login" sectionClass=" w-full md:w-2/3 lg:w-1/3">
+		<Register href="/">
+			<svelte:fragment slot="top">
+				<img class="w-8 h-8 mr-2" src="/images/logo.svg" alt="logo" />
+				Disruptivism
+			</svelte:fragment>
+			<div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+				<form class="flex flex-col space-y-6" action="?/login" method="POST" >
+					<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Log in</h3>
+					<Label class="space-y-2">
+						<span>Your email</span>
+						<Input type="email" name="email" placeholder="your@email.com" required />
+					</Label>
+					<Label class="space-y-2">
+						<span>Your password</span>
+						<Input type="password" name="password" placeholder="•••••" required />
+					</Label>
+					<div class="flex items-start">
+						<Checkbox>Remember me</Checkbox>
+						<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+							>Forgot password?</a
+						>
+					</div>
+					<Button type="submit" class="w-full1">Sign in</Button>
+					<p class="text-sm font-light text-gray-500 dark:text-gray-400">
+						Don’t have an account yet? <a
+							href="/signup"
+							class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a
+						>
+					</p>
+				</form>
+			</div>
+		</Register>
+	</Section>
+</div>

@@ -1,5 +1,7 @@
-export const load = async ({ locals }) => {
-	locals.posts = await locals.pb.collection('posts').getFullList({
+export const load = async ({ locals, url }) => {
+	const page = url.searchParams.get('page') || 1;
+
+	locals.posts = await locals.pb.collection('posts').getList(page, 15, {
 		sort: '-created',
 		expand: 'user'
 	});

@@ -1,13 +1,11 @@
 <script>
-	import { Section, News, HeroHeader, HeroBody } from 'flowbite-svelte-blocks';
+	import { Section, HeroHeader, HeroBody } from 'flowbite-svelte-blocks';
+	import { Pagination } from 'flowbite-svelte';
 	import { Button } from 'flowbite-svelte';
-	import { ArrowRightOutline, VideoCameraSolid } from 'flowbite-svelte-icons';
-	import { each } from 'svelte/internal';
-	import CenterBlock from '$lib/components/reusable/CenterBlock.svelte';
+	import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
+	import { ArrowRightOutline, } from 'flowbite-svelte-icons';
 	import { Card } from 'flowbite-svelte';
 	import { page } from '$app/stores';
-	import { Pagination } from 'flowbite-svelte';
-	import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 
 	export let data;
@@ -67,8 +65,8 @@
 	>
 		{#if data.user != undefined && data.user.article_permissions == true}
 			<a href="/">
-				<Button size="lg" color="red">
-					Learn more <ArrowRightOutline size="md" class="ml-2 -mr-1" />
+				<Button size="lg" outline pill>
+					Write a new article <ArrowRightOutline size="md" class="ml-2 -mr-1" />
 				</Button>
 			</a>
 		{/if}

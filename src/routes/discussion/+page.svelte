@@ -1,14 +1,74 @@
 <script>
-	import { invalidate, invalidateAll } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
+	import { Card } from 'flowbite-svelte';
+	import { HeartOutline, HeartSolid } from 'flowbite-svelte-icons';
+	import { Label, Input, Modal, Textarea, Select } from 'flowbite-svelte';
+	let new_post_form = false;
+	import { Section, HeroHeader, HeroBody } from 'flowbite-svelte-blocks';
+	import { Pagination } from 'flowbite-svelte';
+	import { Button } from 'flowbite-svelte';
+	import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
+	import { ArrowRightOutline } from 'flowbite-svelte-icons';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+
 	export let data;
-	$: posts = data.posts;
+
+	$: posts = data.posts.items;
 	$: user = data.user;
 
 	$: posts.length, update_load_icon();
 
 	let form;
+
+	$: new_post_form = false;
+
 	$: new_post_loading = false;
 	$: deleting_post = false;
+
+	$: activeUrl = $page.url.searchParams.get('page');
+	console.log(activeUrl);
+
+	if (activeUrl == undefined) {
+		activeUrl = 1;
+	}
+
+	let pages = [];
+
+	if (data.posts != undefined) {
+		for (let i = 1; i < data.posts.totalPages + 1; i++) {
+			pages.push({ name: i, href: '/discussion?page=' + i });
+			if (i > 4) {
+				break;
+			}
+		}
+	}
+
+	$: {
+		pages.forEach((page) => {
+			let splitUrl = page.href.split('?');
+			let queryString = splitUrl.slice(1).join('?');
+			const hrefParams = new URLSearchParams(queryString);
+			let hrefValue = hrefParams.get('page');
+			if (hrefValue === activeUrl) {
+				page.active = true;
+			} else {
+				page.active = false;
+			}
+		});
+		pages = pages;
+	}
+
+	const previous = () => {
+		if (activeUrl > 1) {
+			goto('/discussion?page=' + (parseInt(activeUrl) - 1));
+		}
+	};
+	const next = () => {
+		if (activeUrl < pages.length) {
+			goto('/discussion?page=' + (parseInt(activeUrl) + 1));
+		}
+	};
 
 	async function vote_inc(post_id) {
 		const formData = new FormData();
@@ -40,9 +100,13 @@
 	}
 
 	async function submit_post(event) {
+		console.log('submitting post');
 		event.preventDefault(); // Prevent default form submission
 
 		if (form != undefined) {
+			//close modal
+			new_post_form = false;
+
 			new_post_loading = true;
 
 			const formData = new FormData();
@@ -89,190 +153,175 @@
 
 		return '';
 	}
+
+	function post_preview(input) {
+		//get first 100 chars of post;
+		if (input.length < 100) {
+			return input.slice(0, 100);
+		} else {
+			return input.slice(0, 100) + '...';
+		}
+	}
 </script>
 
-<div
-	class="top-0 z-[-1] w-screen h-min-content p-20 min-h-[calc(100vh-80px)] bg-ctp-base flex flex-col items-center justify-center bg-[url('/src/lib/images/blob-scene-haikei.svg')] bg-no-repeat bg-cover"
+<Modal
+	id="new-post-modal"
+	title="New Post"
+	bind:open={new_post_form}
+	outsideclose
+	on:close={() => (new_post_form = false)}
+	class="min-w-full"
 >
-	{#if posts != undefined}
-		<div
-			class="relative w-[40vw] border-[1px] border-ctp-text bg-ctp-base bg-opacity-60 backdrop-blur-xl flex flex-col items-center justify-between p-5 shadow-lg shadow-ctp-crust"
-		>
-			{#if user != undefined}
-				<form
-					action="?/submit"
-					method="POST"
-					enctype="multipart/form-data"
-					class="flex flex-col items-center justify-evenly w-[38vw] gap-5 mb-[1vw] text-ctp-text"
-					bind:this={form}
-					on:submit={submit_post}
+	<form
+		action="?/submit"
+		method="POST"
+		enctype="multipart/form-data"
+		bind:this={form}
+		on:submit={submit_post}
+	>
+		<div class="grid gap-4 mb-4 sm:grid-cols-2">
+			<div>
+				<Label for="title" class="mb-2">Title</Label>
+				<Input type="text" id="title" name="title" placeholder="Post Title" required />
+			</div>
+
+			<div class="sm:col-span-2">
+				<Label for="content" class="mb-2">Content</Label>
+				<Textarea id="content" placeholder="Post content here" rows="4" name="content" required />
+			</div>
+			<Button type="submit" class="w-52">
+				<svg
+					class="mr-1 -ml-1 w-6 h-6"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+					><path
+						fill-rule="evenodd"
+						d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+						clip-rule="evenodd"
+					/></svg
 				>
-					<input
-						type="text"
-						name="title"
-						placeholder="Title"
-						autocomplete="off"
-						class="h-10 w-full px-2 bg-ctp-surface0 border-[1px] border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
-					/>
+				Submit Post
+			</Button>
+		</div>
+	</form>
+</Modal>
 
-					<textarea
-						name="content"
-						placeholder="Content"
-						class="h-[10vw] w-full p-2 bg-ctp-surface0 border-[1px] text-ctp-subtext0 border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
-					/>
-					<button
-						type="submit"
-						class="h-10 w-full px-2 bg-ctp-surface0 border-[1px] hover:cursor-pointer text-ctp-subtext0 text-left border-ctp-subtext0 focus:outline-none focus:border-ctp-text"
-						>Submit Post</button
+<Section
+	name="heroDefault"
+	sectionClass="py-20 min-h-[calc(100vh-80px)] bg-[url('/src/lib/images/blob_2_light.svg')] dark:bg-[url('/src/lib/images/blob_2_dark.svg')] bg-cover bg-center bg-no-repeat"
+>
+	<HeroHeader>
+		<svelte:fragment slot="h1">Disruptivist posts</svelte:fragment>
+		<svelte:fragment slot="paragraph"
+			>Find out more about Philip Mackessy, and what is happening in the world of disruption.</svelte:fragment
+		>
+	</HeroHeader>
+
+	<div
+		class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+	>
+		<button
+			on:click={() => {
+				new_post_form = !new_post_form;
+			}}
+		>
+			<Button size="lg" outline pill>
+				Write a new post <ArrowRightOutline size="md" class="ml-2 -mr-1" />
+			</Button>
+		</button>
+	</div>
+	<HeroBody>
+		{#if data.posts != undefined}
+			<div class="w-full flex flex-col items-center justify-center gap-5">
+				{#each posts as post}
+					<Card
+						size="md"
+						class="hover:scale-[1.01] border-2 hover:border-black dark:hover:border-white shadow-none hover:shadow-md  shadow-black dark:hover:shadow-white transition-all duration-300"
 					>
-				</form>
-			{:else}
-				<div class="text-3xl text-ctp-text mb-[1vw]">
-					<a
-						class="text-ctp-lavender hover:text-ctp-blue underline transition-colors duration-300"
-						href="/login">Log in</a
-					> to submit a post.
-				</div>
-			{/if}
-
-			<div class="w-[40vw] h-[1px] bg-ctp-text" />
-
-			<button
-				on:click={() => location.reload()}
-				class="text-3xl text-ctp-lavender hover:text-ctp-blue transition-colors duration-300 mt-[2vw]"
-			>
-				Reload Posts
-			</button>
-
-			<div class="w-full flex flex-col items-center justify-center mt-[1vw]">
-				{#if new_post_loading || deleting_post}
-					<div class="w-full h-full flex items-center justify-center">
-						<div
-							class="relative w-20 h-20 flex items-center justify-center transition-all duration-300"
-						>
+						<a href="/discussion/{post.id}">
+							<h5 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+								{post.title}
+							</h5>
 							<div
-								class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+								class="font-normal text-gray-700 dark:text-gray-400 leading-tight flex flex-row justify-between border-b-[1px] border-gray-300 dark:border-gray-600 pb-3"
 							>
-								<div
-									class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+								<a
+									href="/user/{post.expand.user.username}"
+									class="underline text-primary-500 hover:text-primary-700"
+									>{post.expand.user.username}</a
 								>
-									<div
-										class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
+								<div>{post.created}</div>
+							</div>
+							<div class="p-2 text-xl">
+								{post_preview(post.content)}
+							</div>
+						</a>
+						<div class="border-t-[1px] border-gray-300 dark:border-gray-600 pt-3">
+							<div class="flex flex-row justify-between">
+								{#if user != undefined}
+									<button
+										class="flex flex-row items-center justify-center gap-3 text-xl text-primary-500 hover:text-primary-700"
+										on:click={() => {
+											if (user.post_votes.includes(post.id)) {
+												user.post_votes = user.post_votes.filter((id) => id != post.id);
+												post.votes--;
+												vote_dec(post.id);
+											} else {
+												user.post_votes.push(post.id);
+												post.votes++;
+												vote_inc(post.id);
+											}
+										}}
 									>
-										<div
-											class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
-										>
-											<div
-												class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
-											>
-												<div
-													class="absolute border-2 rounded-full border-ctp-text w-[calc(100%-6px)] h-[calc(100%-6px)] border-t-[#0000] duration-[550ms] rings flex items-center justify-center"
-												/>
-											</div>
+										{#if user.post_votes.includes(post.id)}
+											<HeartSolid size="lg" />
+										{:else}
+											<HeartOutline size="lg" />
+										{/if}
+
+										<div class=" text-black dark:text-white">
+											{post.votes}
 										</div>
-									</div>
+									</button>
+								{:else}
+									<div>{post.votes}</div>
+								{/if}
+
+								<div class="flex flex-row gap-2">
+									{#if user.id == post.expand.user.id || user.discussion_moderator == true}
+										<button
+											class="text-primary-500 hover:text-primary-700 underline"
+											on:click={() => delete_post(post.id)}>delete</button
+										>
+									{/if}
+									{#if user.discussion_moderator == true}
+										<button
+											class="text-primary-500 hover:text-primary-700 underline"
+											on:click={() => ban_user(post.expand.user)}>ban</button
+										>
+									{/if}
 								</div>
 							</div>
 						</div>
-						{#if new_post_loading}
-							<div class="text-3xl text-ctp-text ml-8">Creating your post...</div>
-						{:else if deleting_post}
-							<div class="text-3xl text-ctp-text ml-8">Deleting post...</div>
-						{/if}
-					</div>
-				{/if}
-				{#each posts as post}
-					<div
-						class="relative h-[5vw] w-full border-[1px] p-[1vw] border-ctp-text my-3 mx-4 flex flex-row items-center"
-					>
-						<div
-							class="mr-[1vw] display flex flex-row items-center justify-between gap-2 text-xl text-ctp-subtext0"
-						>
-							{#if user != undefined}
-								<button
-									class="flex flex-row items-center justify-center gap-3"
-									on:click={() => {
-										if (user.post_votes.includes(post.id)) {
-											user.post_votes = user.post_votes.filter((id) => id != post.id);
-											post.votes--;
-											vote_dec(post.id);
-										} else {
-											user.post_votes.push(post.id);
-											post.votes++;
-											vote_inc(post.id);
-										}
-									}}
-								>
-									<div
-										class="h-3 w-3 rotate-45 translate-y-1 border-l-2 border-t-2 {get_button_color(
-											post.id
-										)}"
-									/>
-
-									{post.votes}
-								</button>
-							{:else}
-								<div>{post.votes}</div>
-							{/if}
-						</div>
-						<div class="relative w-full text-xl text-ctp-text top-1/2 -translate-y-1/2">
-							<div class="flex flex-row items-start justify-between">
-								<a href="/discussion/{post.id}">
-									{post.title}
-								</a>
-								{#if user != undefined}
-									{#if user.discussion_moderator == true || user.id == post.expand.user.id}
-										<div class="flex flex-row items-center justify-center gap-3">
-											<button on:click={delete_post(post.id)} class="text-ctp-lavender">
-												Delete
-											</button>
-											{#if user.discussion_moderator == true && post.expand.user.id != user.id}
-												<button on:click={ban_user(post.expand.user.id)} class="text-ctp-lavender">
-													Ban
-												</button>
-											{/if}
-										</div>
-									{/if}
-								{/if}
-							</div>
-							<div class="flex flex-row items-center justify-between">
-								<div class="text-ctp-overlay2">By {post.expand.user.username}</div>
-								<div class="text-ctp-overlay2">{post.created}</div>
-							</div>
-						</div>
-					</div>
+					</Card>
 				{/each}
+
+				<Pagination {pages} on:previous={previous} on:next={next} icon>
+					<svelte:fragment slot="prev">
+						<span class="sr-only">Previous</span>
+						<ChevronLeftOutline class="w-2.5 h-2.5" />
+					</svelte:fragment>
+					<svelte:fragment slot="next">
+						<span class="sr-only">Next</span>
+						<ChevronRightOutline class="w-2.5 h-2.5" />
+					</svelte:fragment>
+				</Pagination>
 			</div>
-		</div>
-	{:else}
-		No posts could be found
-	{/if}
-</div>
-
-<style lang="postcss">
-	@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-	* {
-		font-family: 'Urbanist', sans-serif;
-		font-optical-sizing: auto;
-		font-weight: 300;
-		font-style: normal;
-	}
-
-	.rings {
-		animation: rotate 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
-	}
-
-	.visible {
-		opacity: 1;
-		z-index: 50;
-	}
-
-	@keyframes rotate {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
-</style>
+		{:else}
+			<div class="w-full h-full flex items-center justify-center text-2xl">
+				No posts could be found
+			</div>
+		{/if}
+	</HeroBody>
+</Section>

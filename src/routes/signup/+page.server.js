@@ -5,7 +5,7 @@ export const actions = {
 	signup: async ({ locals, request }) => {
 		const body = Object.fromEntries(await request.formData());
 
-		let username = generateUsername(body.name.split(' ').join('')).toLowerCase();
+		const username = generateUsername();
 
 		try {
 			await locals.pb.collection('users').create({
