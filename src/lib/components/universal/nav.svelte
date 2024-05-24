@@ -47,7 +47,7 @@
 			on:click={() => {
 				expand_menu = true;
 			}}
-			href="/discussion?page=1">Discussion</NavLi
+			href="/discussion">Discussion</NavLi
 		>
 		<NavLi
 			on:click={() => {
@@ -67,14 +67,7 @@
 			}}
 			href="/about">About Us</NavLi
 		>
-		<NavLi
-			on:click={() => {
-				expand_menu = true;
-			}}
-			href="/about">{expand_menu}</NavLi
-		>
 		{#if !data.user}
-			<NavLi>|</NavLi>
 			<NavLi href="/login">Login</NavLi>
 			<NavLi href="/signup">Signup</NavLi>
 		{:else}
