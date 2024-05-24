@@ -14,6 +14,8 @@
 	import { page } from '$app/stores';
 	$: activeUrl = $page.url.pathname;
 
+	$: expand_menu = false;
+
 	export let data;
 </script>
 
@@ -27,13 +29,50 @@
 			>
 		</NavBrand>
 	</div>
-	<NavHamburger />
-	<NavUl {activeUrl}>
-		<NavLi href="/">Home</NavLi>
-		<NavLi href="/discussion?page=1">Discussion</NavLi>
-		<NavLi href="/articles">Articles</NavLi>
-		<NavLi href="/texts">Sacred Texts</NavLi>
-		<NavLi href="/about">About Us</NavLi>
+	<button
+		on:click={() => {
+			expand_menu = !expand_menu;
+		}}
+	>
+		<NavHamburger onClick="" />
+	</button>
+	<NavUl hidden={expand_menu} {activeUrl}>
+		<NavLi
+			on:click={() => {
+				expand_menu = true;
+			}}
+			href="/">Home</NavLi
+		>
+		<NavLi
+			on:click={() => {
+				expand_menu = true;
+			}}
+			href="/discussion?page=1">Discussion</NavLi
+		>
+		<NavLi
+			on:click={() => {
+				expand_menu = true;
+			}}
+			href="/articles">Articles</NavLi
+		>
+		<NavLi
+			on:click={() => {
+				expand_menu = true;
+			}}
+			href="/texts">Sacred Texts</NavLi
+		>
+		<NavLi
+			on:click={() => {
+				expand_menu = true;
+			}}
+			href="/about">About Us</NavLi
+		>
+		<NavLi
+			on:click={() => {
+				expand_menu = true;
+			}}
+			href="/about">{expand_menu}</NavLi
+		>
 		{#if !data.user}
 			<NavLi>|</NavLi>
 			<NavLi href="/login">Login</NavLi>
