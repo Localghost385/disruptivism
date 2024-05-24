@@ -14,7 +14,7 @@
 	import { page } from '$app/stores';
 	$: activeUrl = $page.url.pathname;
 
-	$: expand_menu = false;
+	$: hide_menu = true;
 
 	export let data;
 </script>
@@ -31,39 +31,39 @@
 	</div>
 	<button
 		on:click={() => {
-			expand_menu = !expand_menu;
+			hide_menu = !hide_menu;
 		}}
 	>
 		<NavHamburger onClick="" />
 	</button>
-	<NavUl hidden={expand_menu} {activeUrl}>
+	<NavUl hidden={hide_menu} {activeUrl}>
 		<NavLi
 			on:click={() => {
-				expand_menu = true;
+				hide_menu = true;
 			}}
 			href="/">Home</NavLi
 		>
 		<NavLi
 			on:click={() => {
-				expand_menu = true;
+				hide_menu = true;
 			}}
 			href="/discussion">Discussion</NavLi
 		>
 		<NavLi
 			on:click={() => {
-				expand_menu = true;
+				hide_menu = true;
 			}}
 			href="/articles">Articles</NavLi
 		>
 		<NavLi
 			on:click={() => {
-				expand_menu = true;
+				hide_menu = true;
 			}}
 			href="/texts">Sacred Texts</NavLi
 		>
 		<NavLi
 			on:click={() => {
-				expand_menu = true;
+				hide_menu = true;
 			}}
 			href="/about">About Us</NavLi
 		>
