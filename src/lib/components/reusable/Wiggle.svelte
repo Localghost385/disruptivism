@@ -1,7 +1,7 @@
 <script>
 	export let color = '#000000';
-    export let height = '100vh';
-    export let width = '100vw'; 
+	export let height = '100vh';
+	export let width = '100vw';
 </script>
 
 <div class="w-[{width}] h-[{height}]">

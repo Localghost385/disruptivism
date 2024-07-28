@@ -9,7 +9,6 @@ export const load = async ({ locals, url }) => {
 	try {
 		locals.user = await locals.pb.collection('users').getOne(locals.user.id);
 	} catch (err) {
-		console.log(err);
 		locals.user = undefined;
 	}
 	if (locals.posts) {

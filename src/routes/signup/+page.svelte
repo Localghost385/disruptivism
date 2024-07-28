@@ -21,12 +21,7 @@
 					</Label>
 					<Label class="space-y-2">
 						<span>Your password</span>
-						<Input
-							type="password"
-							name="password"
-							placeholder="•••••"
-							required
-						/>
+						<Input type="password" name="password" placeholder="•••••" required />
 					</Label>
 					<Label class="space-y-2">
 						<span>Confirm password</span>

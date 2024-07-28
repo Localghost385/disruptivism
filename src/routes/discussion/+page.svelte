@@ -11,6 +11,8 @@
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { Popover } from 'flowbite-svelte';
+	import { blur, fade, slide } from 'svelte/transition';
 
 	export let data;
 
@@ -87,16 +89,6 @@
 			method: 'POST',
 			body: formData
 		});
-	}
-
-	function get_button_color(post_id) {
-		if (user.post_votes.includes(post_id)) {
-			console.log('red');
-			return 'border-ctp-red';
-		} else {
-			console.log('blue');
-			return 'border-ctp-subtext0';
-		}
 	}
 
 	async function submit_post(event) {
@@ -221,15 +213,23 @@
 	<div
 		class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
 	>
-		<button
-			on:click={() => {
-				new_post_form = !new_post_form;
-			}}
-		>
-			<Button size="lg" outline pill>
-				Write a new post <ArrowRightOutline size="md" class="ml-2 -mr-1" />
-			</Button>
-		</button>
+		{#if user != undefined}
+			<button
+				on:click={() => {
+					new_post_form = !new_post_form;
+				}}
+			>
+				<Button size="lg" outline pill>
+					Write a new post <ArrowRightOutline size="md" class="ml-2 -mr-1" />
+				</Button>
+			</button>
+		{:else}
+			<a href="/login">
+				<Button size="lg" outline pill>
+					Log in to post. <ArrowRightOutline size="md" class="ml-2 -mr-1" />
+				</Button>
+			</a>
+		{/if}
 	</div>
 	<HeroBody>
 		{#if data.posts != undefined}
@@ -285,21 +285,27 @@
 										</div>
 									</button>
 								{:else}
-									<div>{post.votes}</div>
+									<div class="flex flex-row items-center justify-center gap-3 text-xl ">
+										<HeartOutline size="lg" />
+										<div>{post.votes}</div>
+										<div><a href="/login" class="text-primary-500 hover:text-primary-700 underline">log in</a> to like posts.</div>
+									</div>
 								{/if}
 
 								<div class="flex flex-row gap-2">
-									{#if user.id == post.expand.user.id || user.discussion_moderator == true}
-										<button
-											class="text-primary-500 hover:text-primary-700 underline"
-											on:click={() => delete_post(post.id)}>delete</button
-										>
-									{/if}
-									{#if user.discussion_moderator == true}
-										<button
-											class="text-primary-500 hover:text-primary-700 underline"
-											on:click={() => ban_user(post.expand.user)}>ban</button
-										>
+									{#if user != undefined}
+										{#if user.id == post.expand.user.id || user.discussion_moderator == true}
+											<button
+												class="text-primary-500 hover:text-primary-700 underline"
+												on:click={() => delete_post(post.id)}>delete</button
+											>
+										{/if}
+										{#if user.discussion_moderator == true}
+											<button
+												class="text-primary-500 hover:text-primary-700 underline"
+												on:click={() => ban_user(post.expand.user)}>ban</button
+											>
+										{/if}
 									{/if}
 								</div>
 							</div>

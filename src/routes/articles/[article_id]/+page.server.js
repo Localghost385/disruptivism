@@ -3,7 +3,7 @@ export const load = async ({ locals, params }) => {
 		expand: 'author'
 	});
 
-	console.log(locals.article)
+	console.log(locals.article);
 
 	locals.user = locals.pb.authStore.model;
 
